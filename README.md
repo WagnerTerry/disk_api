@@ -11,3 +11,4 @@ Dependências
 - npm install --save bcrypt
 - npm install jsonwebtoken --save
 - npm install cors
+- npm install -g heroku
