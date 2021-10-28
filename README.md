@@ -10,3 +10,4 @@ Dependências
 - npm install --save multer
 - npm install --save bcrypt
 - npm install jsonwebtoken --save
+- npm install cors
