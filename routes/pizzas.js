@@ -11,7 +11,8 @@ router.get("/", (req, res, next) => {
       `
     select 
       Pizzas.codigo_pizza, Pizzas.nome, 
-      Grupos.codigo_grupo, Grupos.nome_grupo
+      Grupos.codigo_grupo, Grupos.nome_grupo, Grupos.preco_pequena,
+      Grupos.preco_grande, Grupos.preco_familia, Grupos.preco_gigante
     from Pizzas
     inner join Grupos
     on Grupos.codigo_grupo = Pizzas.codigo_grupo 
@@ -29,6 +30,10 @@ router.get("/", (req, res, next) => {
               nome: pizza.nome,
               codigo_grupo: pizza.codigo_grupo,
               nome_grupo: pizza.nome_grupo,
+              preco_pequena: pizza.preco_pequena,
+              preco_grande: pizza.preco_grande,
+              preco_familia: pizza.preco_familia,
+              preco_gigante: pizza.preco_gigante,
             };
           }),
         };
@@ -86,6 +91,30 @@ router.get("/grupos", (req, res, next) => {
             preco_grande: grupo.preco_grande,
             preco_familia: grupo.preco_familia,
             preco_gigante: grupo.preco_gigante,
+          };
+        }),
+      };
+      return res.status(200).send(response);
+    });
+  });
+});
+
+router.get("/bebidas", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    conn.query(`select * from Bebidas;`, (error, results) => {
+      conn.release();
+      if (error) {
+        return res.status(500).send({ error });
+      }
+      const response = {
+        bebidas: results.map((bebida) => {
+          return {
+            codigo_bebida: bebida.codigo_bebida,
+            tamanho: bebida.tamanho,
+            litro: bebida.litro,
           };
         }),
       };

@@ -23,6 +23,7 @@ const rotaProdutos = require("./routes/produtos");
 const rotaPedidos = require("./routes/pedidos");
 const rotaUsuarios = require("./routes/usuarios");
 const rotaPizzas = require("./routes/pizzas");
+const rotaClientes = require("./routes/clientes");
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -33,6 +34,7 @@ app.use("/produtos", rotaProdutos);
 app.use("/pedidos", rotaPedidos);
 app.use("/usuarios", rotaUsuarios);
 app.use("/pizzas", rotaPizzas);
+app.use("/clientes", rotaClientes);
 
 app.use((req, res, next) => {
   const erro = new Error("Não encontrado");
