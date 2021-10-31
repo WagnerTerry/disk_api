@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 const rotaProdutos = require("./routes/produtos");
 const rotaPedidos = require("./routes/pedidos");
 const rotaUsuarios = require("./routes/usuarios");
+const rotaPizzas = require("./routes/pizzas");
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -31,6 +32,7 @@ app.use(express.json()); // json de entrada no body
 app.use("/produtos", rotaProdutos);
 app.use("/pedidos", rotaPedidos);
 app.use("/usuarios", rotaUsuarios);
+app.use("/pizzas", rotaPizzas);
 
 app.use((req, res, next) => {
   const erro = new Error("Não encontrado");
