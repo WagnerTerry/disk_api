@@ -4,6 +4,9 @@ const morgan = require("morgan");
 const cors = require("cors");
 //const bodyParser = require("body-parser"); agora pode usar o express.json()
 
+app.use(cors());
+app.use(express.json()); // json de entrada no body
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -26,9 +29,9 @@ const rotaPizzas = require("./routes/pizzas");
 const rotaClientes = require("./routes/clientes");
 
 app.use(morgan("dev"));
-app.use(cors());
+
 app.use("/uploads", express.static("uploads"));
-app.use(express.json()); // json de entrada no body
+
 
 app.use("/produtos", rotaProdutos);
 app.use("/pedidos", rotaPedidos);
