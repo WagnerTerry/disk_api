@@ -75,4 +75,29 @@ router.post("/cadastro", (req, res, next) => {
   });
 });
 
+router.delete("/", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    conn.query(
+      `
+    delete from Clientes where codigo_cliente = ?
+    `,
+      [req.body.codigo_cliente],
+      (error, results) => {
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error });
+        }
+        const response = {
+          mensagem: "Cliente excluído com sucesso",
+        };
+
+        return res.status(202).send(response);
+      }
+    );
+  });
+});
+
 module.exports = router;
