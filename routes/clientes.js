@@ -16,7 +16,7 @@ router.get("/", (req, res, next) => {
         quantidade_cliente: results.length,
         clientes: results.map((cliente) => {
           return {
-            id: cliente.id,
+            codigo_cliente: cliente.codigo_cliente,
             nome: cliente.nome,
             telefone: cliente.telefone,
             cep: cliente.cep,
