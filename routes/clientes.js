@@ -75,7 +75,7 @@ router.post("/cadastro", (req, res, next) => {
   });
 });
 
-router.delete("/", (req, res, next) => {
+router.delete("/:codigo_cliente", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error });
@@ -84,7 +84,7 @@ router.delete("/", (req, res, next) => {
       `
     delete from Clientes where codigo_cliente = ?
     `,
-      [req.body.codigo_cliente],
+      [req.params.codigo_cliente],
       (error, results) => {
         conn.release();
         if (error) {
