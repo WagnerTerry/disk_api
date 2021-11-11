@@ -75,6 +75,53 @@ router.post("/cadastro", (req, res, next) => {
   });
 });
 
+router.put("/", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    conn.query(
+      `
+    UPDATE Clientes SET nome = ?, telefone = ?, cep = ?,
+    logradouro = ?, bairro = ?, cidade = ?, observacoes = ? 
+    WHERE codigo_cliente = ?
+    `,
+      [
+        req.body.nome,
+        req.body.telefone,
+        req.body.cep,
+        req.body.logradouro,
+        req.body.bairro,
+        req.body.cidade,
+        req.body.observacoes,
+        req.body.codigo_cliente,
+      ],
+      (error, results, fields) => {
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error });
+        }
+
+        const response = {
+          mensagem: "Cliente atualizado com sucesso",
+          clienteAtualizado: {
+            codigo_cliente: req.body.codigo_cliente,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            cep: req.body.cep,
+            logradouro: req.body.logradouro,
+            bairro: req.body.bairro,
+            cidade: req.body.cidade,
+            observacoes: req.body.observacoes,
+          },
+        };
+
+        return res.status(202).send(response);
+      }
+    );
+  });
+});
+
 router.delete("/:codigo_cliente", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
