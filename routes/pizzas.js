@@ -99,6 +99,48 @@ router.get("/grupos", (req, res, next) => {
   });
 });
 
+router.post("/grupos", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    conn.query(
+      `
+    insert into Grupos (nome_grupo, preco_pequena, preco_grande, preco_familia, preco_gigante, codigo_grupo)
+    values (?,?,?,?,?,?)
+    `,
+      [
+        req.body.nome_grupo,
+        req.body.preco_pequena,
+        req.body.preco_grande,
+        req.body.preco_familia,
+        req.body.preco_gigante,
+        req.body.codigo_grupo,
+      ],
+      (error, results, fields) => {
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error });
+        }
+
+        const response = {
+          mensagem: "Grupo cadastrado com sucesso",
+          grupoCriado: {
+            codigo_grupo: results.insertId,
+            nome_grupo: req.body.nome_grupo,
+            preco_pequena: req.body.preco_pequena,
+            preco_grande: req.body.grande,
+            preco_familia: req.body.preco_familia,
+            preco_gigante: req.body.preco_gigante,
+          },
+        };
+
+        return res.status(201).send(response);
+      }
+    );
+  });
+});
+
 router.get("/bebidas", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
