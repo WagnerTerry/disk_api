@@ -141,18 +141,23 @@ router.post("/grupos", (req, res, next) => {
   });
 });
 
-router.delete('/grupos', (req, res, next) => {
+router.delete("/grupos/:codigo_grupo", (req, res, next) => {
   mysql.getConnection((error, conn) => {
-    if (error) { return res.status(500).send({ error }) }
-    conn.query(`
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    conn.query(
+      `
       delete from Grupos where codigo_grupo = ?
     `,
-      [req.body.codigo_grupo],
+      [req.params.codigo_grupo],
       (error, result, fields) => {
-        conn.release()
-        if (error) { return res.status(500).send({ error }) }
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error });
+        }
         const response = {
-          mensagem: "Cliente excluído com sucesso",
+          mensagem: "Grupo excluído com sucesso",
         };
 
         return res.status(202).send(response);
