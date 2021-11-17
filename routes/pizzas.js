@@ -28,6 +28,7 @@ router.get("/", (req, res, next) => {
             return {
               codigo_pizza: pizza.codigo_pizza,
               nome: pizza.nome,
+              ativo: pizza.ativo,
               codigo_grupo: pizza.codigo_grupo,
               nome_grupo: pizza.nome_grupo,
               preco_pequena: pizza.preco_pequena,
@@ -49,8 +50,8 @@ router.post("/", (req, res, next) => {
       return res.status(500).send({ error });
     }
     conn.query(
-      `insert into Pizzas (nome, codigo_grupo) values (?,?)`,
-      [req.body.nome, req.body.codigo_grupo],
+      `insert into Pizzas (nome, ativo, codigo_grupo) values (?,?,?)`,
+      [req.body.nome, req.body.ativo, req.body.codigo_grupo],
       (error, results) => {
         conn.release();
         if (error) {
@@ -62,6 +63,7 @@ router.post("/", (req, res, next) => {
           produtoCriado: {
             codigo_pizza: results.insertId,
             nome: req.body.nome,
+            ativo: req.body.ativo,
             codigo_grupo: req.body.codigo_grupo,
           },
         };
@@ -141,7 +143,7 @@ router.post("/grupos", (req, res, next) => {
   });
 });
 
-router.delete("/grupos/:codigo_grupo", (req, res, next) => {
+router.delete("/grupos", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error });
@@ -150,8 +152,9 @@ router.delete("/grupos/:codigo_grupo", (req, res, next) => {
       `
       delete from Grupos where codigo_grupo = ?
     `,
-      [req.params.codigo_grupo],
+      [req.body.codigo_grupo],
       (error, result, fields) => {
+
         conn.release();
         if (error) {
           return res.status(500).send({ error });
