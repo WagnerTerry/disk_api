@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
     conn.query(
       `
     select 
-      Pizzas.codigo_pizza, Pizzas.nome, 
+      Pizzas.codigo_pizza, Pizzas.nome, Pizzas.ativo,
       Grupos.codigo_grupo, Grupos.nome_grupo, Grupos.preco_pequena,
       Grupos.preco_grande, Grupos.preco_familia, Grupos.preco_gigante
     from Pizzas
