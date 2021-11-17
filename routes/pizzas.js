@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
     conn.query(
       `
     select 
-      Pizzas.codigo_pizza, Pizzas.nome, Pizzas.ativo,
+      Pizzas.codigo_pizza, Pizzas.nome_pizza, Pizzas.ativo,
       Grupos.codigo_grupo, Grupos.nome_grupo, Grupos.preco_pequena,
       Grupos.preco_grande, Grupos.preco_familia, Grupos.preco_gigante
     from Pizzas
@@ -27,7 +27,7 @@ router.get("/", (req, res, next) => {
           pizzas: results.map((pizza) => {
             return {
               codigo_pizza: pizza.codigo_pizza,
-              nome: pizza.nome,
+              nome_pizza: pizza.nome_pizza,
               ativo: pizza.ativo,
               codigo_grupo: pizza.codigo_grupo,
               nome_grupo: pizza.nome_grupo,
@@ -50,8 +50,8 @@ router.post("/", (req, res, next) => {
       return res.status(500).send({ error });
     }
     conn.query(
-      `insert into Pizzas (nome, ativo, codigo_grupo) values (?,?,?)`,
-      [req.body.nome, req.body.ativo, req.body.codigo_grupo],
+      `insert into Pizzas (nome_pizza, ativo, codigo_grupo) values (?,?,?)`,
+      [req.body.nome_pizza, req.body.ativo, req.body.codigo_grupo],
       (error, results) => {
         conn.release();
         if (error) {
@@ -62,7 +62,7 @@ router.post("/", (req, res, next) => {
           mensagem: "Pizza inserida com sucesso",
           produtoCriado: {
             codigo_pizza: results.insertId,
-            nome: req.body.nome,
+            nome_pizza: req.body.nome_pizza,
             ativo: req.body.ativo,
             codigo_grupo: req.body.codigo_grupo,
           },
