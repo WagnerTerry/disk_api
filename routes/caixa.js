@@ -62,7 +62,7 @@ router.post("/", (req, res, next) => {
       (error, results) => {
         conn.release();
         if (error) {
-          return res.status(500).send({ response });
+          return res.status(500).send({ error });
         }
         const response = {
           mensagem: "Caixa salva com sucesso",
