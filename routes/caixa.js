@@ -21,10 +21,10 @@ router.get("/", (req, res, next) => {
           fluxo_caixa: results.map((caixa) => {
             return {
               codigo_pedido: caixa.codigo_pedido,
-              data: caixa.datas,
+              datas: caixa.datas,
               hora: caixa.hora,
-              cliente: caixa.nome_cliente,
-              pizza: caixa.nome_pizza,
+              nome_cliente: caixa.nome_cliente,
+              nome_pizza: caixa.nome_pizza,
               bairro: caixa.bairro,
               entregador: caixa.entregador,
               situacao: caixa.situacao,
