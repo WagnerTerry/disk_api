@@ -67,7 +67,7 @@ router.post("/", (req, res, next) => {
         const response = {
           mensagem: "Caixa salva com sucesso",
           registroCadastrado: {
-            codigo_caixa: results.insertId,
+            codigo_pedido: results.insertId,
             datas: req.body.datas,
             hora: req.body.hora,
             nome_cliente: req.body.nome_cliente,
@@ -91,9 +91,9 @@ router.delete("/", (req, res, next) => {
     }
     conn.query(
       `
-      delete from Caixa where codigo_caixa = ?
+      delete from Caixa where codigo_pedido = ?
     `,
-      [req.params.codigo_caixa],
+      [req.params.codigo_pedido],
       (error, results) => {
         conn.release();
         if (error) {
