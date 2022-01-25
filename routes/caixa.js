@@ -84,7 +84,7 @@ router.post("/", (req, res, next) => {
   });
 });
 
-router.delete("/", (req, res, next) => {
+router.delete("/:codigo_pedido", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send(error);
