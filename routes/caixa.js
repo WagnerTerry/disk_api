@@ -84,4 +84,28 @@ router.post("/", (req, res, next) => {
   });
 });
 
+router.delete("/", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send(error);
+    }
+    conn.query(
+      `
+      delete from Caixa where codigo_caixa = ?
+    `,
+      [req.params.codigo_caixa],
+      (error, results) => {
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error });
+        }
+        const response = {
+          mensagem: "Registro deletado com sucesso",
+        };
+        return res.status(202).send(response);
+      }
+    );
+  });
+});
+
 module.exports = router;
