@@ -21,13 +21,14 @@ router.get("/", (req, res, next) => {
           fluxo_caixa: results.map((caixa) => {
             return {
               codigo_pedido: caixa.codigo_pedido,
+              numero_pedido: caixa.numero_pedido,
               datas: caixa.datas,
               hora: caixa.hora,
               nome_cliente: caixa.nome_cliente,
               nome_pizza: caixa.nome_pizza,
               bairro: caixa.bairro,
               entregador: caixa.entregador,
-              situacao: caixa.situacao,
+              pagamento: caixa.pagamento,
               valor: caixa.valor,
             };
           }),
@@ -46,17 +47,18 @@ router.post("/", (req, res, next) => {
     conn.query(
       `
       insert into Caixa
-      (datas, hora, nome_cliente, nome_pizza, bairro, entregador, situacao, valor)
-      values (?,?,?,?,?,?,?,?)
+      (numero_pedido, datas, hora, nome_cliente, nome_pizza, bairro, entregador, pagamento, valor)
+      values (?,?,?,?,?,?,?,?,?)
       `,
       [
+        req.body.numero_pedido,
         req.body.datas,
         req.body.hora,
         req.body.nome_cliente,
         req.body.nome_pizza,
         req.body.bairro,
         req.body.entregador,
-        req.body.situacao,
+        req.body.pagamento,
         req.body.valor,
       ],
       (error, results) => {
@@ -65,16 +67,17 @@ router.post("/", (req, res, next) => {
           return res.status(500).send({ error });
         }
         const response = {
-          mensagem: "Caixa salva com sucesso",
+          mensagem: "Registro salvo com sucesso",
           registroCadastrado: {
             codigo_pedido: results.insertId,
+            numero_pedido: req.body.numero_pedido,
             datas: req.body.datas,
             hora: req.body.hora,
             nome_cliente: req.body.nome_cliente,
             nome_pizza: req.body.nome_pizza,
             bairro: req.body.bairro,
             entregador: req.body.entregador,
-            situacao: req.body.situacao,
+            pagamento: req.body.pagamento,
             valor: req.body.valor,
           },
         };
