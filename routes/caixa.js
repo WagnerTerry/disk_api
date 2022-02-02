@@ -87,6 +87,28 @@ router.post("/", (req, res, next) => {
   });
 });
 
+router.delete("/deleteAll", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    conn.query(
+      `
+      TRUNCATE TABLE Caixa;
+    `,
+      (error, results) => {
+        if (error) {
+          return res.status(500).send({ error });
+        }
+        const response = {
+          mensagem: "Todos os registros foram apagados",
+        };
+        return res.status(202).send(response);
+      }
+    );
+  });
+});
+
 router.delete("/:codigo_pedido", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
