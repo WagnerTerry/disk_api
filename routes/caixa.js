@@ -29,6 +29,7 @@ router.get("/", (req, res, next) => {
               bairro: caixa.bairro,
               entregador: caixa.entregador,
               pagamento: caixa.pagamento,
+              observacao: caixa.observacao,
               valor: caixa.valor,
             };
           }),
@@ -47,8 +48,8 @@ router.post("/", (req, res, next) => {
     conn.query(
       `
       insert into Caixa
-      (numero_pedido, datas, hora, nome_cliente, nome_pizza, bairro, entregador, pagamento, valor)
-      values (?,?,?,?,?,?,?,?,?)
+      (numero_pedido, datas, hora, nome_cliente, nome_pizza, bairro, entregador, pagamento, observacao, valor)
+      values (?,?,?,?,?,?,?,?,?,?)
       `,
       [
         req.body.numero_pedido,
@@ -59,6 +60,7 @@ router.post("/", (req, res, next) => {
         req.body.bairro,
         req.body.entregador,
         req.body.pagamento,
+        req.body.observacao,
         req.body.valor,
       ],
       (error, results) => {
@@ -78,6 +80,7 @@ router.post("/", (req, res, next) => {
             bairro: req.body.bairro,
             entregador: req.body.entregador,
             pagamento: req.body.pagamento,
+            observacao: req.body.observacao,
             valor: req.body.valor,
           },
         };
