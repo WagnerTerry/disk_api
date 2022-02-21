@@ -1,0 +1,82 @@
+create database disk_pizza_api use disk_pizza_api
+select *
+from Pizzas p2;
+select *
+from Clientes c;
+select *
+from Grupos g
+select Pizzas.codigo_pizza,
+    Pizzas.nome_pizza,
+    Pizzas.ativo,
+    Grupos.codigo_grupo,
+    Grupos.nome_grupo
+from Pizzas
+    inner join Grupos on Grupos.codigo_grupo = Pizzas.codigo_grupo create table Bebidas (
+        codigo_bebida int primary key auto_increment not null,
+        tamanho varchar(40),
+        litro float
+    ) create table Grupos (
+        codigo_grupo int primary key auto_increment not null,
+        nome_grupo varchar(50),
+        preco_pequena float,
+        preco_grande float,
+        preco_familia float,
+        preco_gigante float
+    ) create table Pizzas (
+        codigo_pizza int primary key auto_increment not null,
+        nome_pizza varchar(50),
+        ativo char(4),
+        codigo_grupo int,
+        foreign key (codigo_grupo) references Grupos(codigo_grupo)
+    ) create table Clientes (
+        codigo_cliente int primary key auto_increment not null,
+        nome varchar (80) not null,
+        telefone char(12) not null,
+        cep char(9) not null,
+        logradouro varchar(60) not null,
+        bairro varchar(40) not null,
+        cidade varchar(40) not null,
+        observacoes varchar(80)
+    ) create table Caixa (
+        codigo_pedido int primary key auto_increment not null,
+        numero_pedido int not null,
+        datas char(10) not null,
+        hora char(5) not null,
+        nome_cliente varchar(80) not null,
+        nome_pizza varchar(50) not null,
+        bairro varchar(50) not null,
+        entregador varchar(50) not null,
+        pagamento char(11) not null,
+        observacao varchar(60),
+        valor double
+    )
+insert into Bebidas (tamanho, litro)
+values ('gigante 45cm', 2);
+insert into Clientes (
+        nome,
+        telefone,
+        cep,
+        logradouro,
+        bairro,
+        cidade,
+        observacoes
+    )
+values (
+        'Wagner',
+        974841079,
+        '26042250',
+        'Rua Paulo Roberto Tobias',
+        'Gerard Danon',
+        'Nova Iguaçú',
+        'Sem azeitonas'
+    );
+insert into Grupos (
+        nome_grupo,
+        preco_pequena,
+        preco_grande,
+        preco_familia,
+        preco_gigante
+    )
+values ('TRADICIONAIS', 23, 30, 37, 44);
+insert into Pizzas (nome_pizza, codigo_grupo, ativo)
+values ('MUSSARELA', 1, 'sim');
