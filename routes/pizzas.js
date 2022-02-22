@@ -207,6 +207,8 @@ router.get("/bebidas", (req, res, next) => {
         bebidas: results.map((bebida) => {
           return {
             codigo_bebida: bebida.codigo_bebida,
+            sabor: bebida.sabor,
+            valor: bebida.valor,
             tamanho: bebida.tamanho,
             litro: bebida.litro,
           };
@@ -214,6 +216,37 @@ router.get("/bebidas", (req, res, next) => {
       };
       return res.status(200).send(response);
     });
+  });
+});
+
+router.post("/bebidas", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send(error);
+    }
+    conn.query(
+      `
+      insert into Bebidas (sabor, valor, tamanho, litro)
+      values (?,?,?,?)
+      `,
+      [req.body.sabor, req.body.valor, req.body.tamanho, req.body.litro],
+      (error, result) => {
+        if (error) {
+          return res.status(500).send(error);
+        }
+        const response = {
+          mensagem: "Bebida cadastrada com sucesso",
+          bebidaCadastrada: {
+            codigo_bebida: result.insertId,
+            sabor: req.body.sabor,
+            valor: req.body.valor,
+            tamanho: req.body.tamanho,
+            litro: req.body.litro,
+          },
+        };
+        return res.status(201).send(response);
+      }
+    );
   });
 });
 
